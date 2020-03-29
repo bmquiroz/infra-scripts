@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "rcits-vpc" {
-  source                            = "../../../../modules/mgmt/vpc"
+  source                            = "../../../modules/vpc"
   name                              = "rcits"
   environment                       = "dev"
   cidr                              = "10.0.0.0/16"
