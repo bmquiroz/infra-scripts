@@ -1,0 +1,80 @@
+{
+        "variables": {
+          "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+          "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+          "aws_security_token": "{{env `AWS_SECURITY_TOKEN`}}",
+          "ami_name": "windows_ami",
+          "app_instance": "test_app1",
+          "tag1": "tag1",
+          "tag2": "tag2",
+          "tag3": "tag3",
+          "vpc": "vpc-033e4ae283f6e672e",
+          "subnet": "subnet-08e1eadeef4adb1e3",
+          "region": "us-east-1",
+          "iam_profile": "rcits-packer-svc",
+          "root_volume_size": "60",
+          "security_group": "sg-05ee80006706be929",
+          "instance_type": "t2.medium"
+        },
+        "builders": [
+          {
+            "vpc_id": "{{user `vpc`}}",
+            "subnet_id": "{{user `subnet`}}",
+            "security_group_id": "{{user `security_group`}}",
+            "type": "amazon-ebs",
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "token": "{{user `aws_security_token`}}",
+            "region": "{{user `region`}}",
+            "temporary_key_pair_name": "",
+            "source_ami_filter": {
+              "filters": {
+              "virtualization-type": "hvm",
+              "name": "Windows*2016*English*Full*Base*",
+              "root-device-type": "ebs"
+              },
+              "owners": ["amazon"],
+              "most_recent": true
+            },
+            "instance_type": "{{user `instance_type`}}",
+            "communicator": "winrm",
+            "winrm_username": "Administrator",
+            "winrm_password": "SuperS3cr3t!",
+            "winrm_timeout": "4h",
+            "user_data_file": "win_prep.ps1",
+            "winrm_insecure": true,
+            "ami_name": "{{user `ami_name`}}",
+            "iam_instance_profile": "{{user `iam_profile`}}",
+            "launch_block_device_mappings": [
+              {
+                "device_name": "/dev/sda1",
+                "delete_on_termination": true,
+                "volume_type": "gp2",
+                "volume_size": "{{user `root_volume_size`}}"
+              }
+            ],
+            "tags": {
+              "Name": "{{user `app_instance`}}",
+              "tag1": "{{user `tag1`}}",
+              "tag2": "{{user `tag2`}}",
+              "tag3": "{{user `tag3`}}",
+              "CreatedBy": "Packer"
+            },
+            "run_tags": {
+              "Name": "{{user `app_instance`}}",
+              "tag1": "{{user `tag1`}}",
+              "tag2": "{{user `tag2`}}",
+              "tag3": "{{user `tag3`}}",
+              "CreatedBy": "Packer"
+            }
+          }
+        ],
+        "provisioners": [
+          {
+            "type": "powershell",
+            "elevated_user": "{{ user `winrm_username` }}",
+            "elevated_password": "{{ user `winrm_password` }}",
+            "script": "/root/packer_poc/win_install.ps1"
+          }
+        ]
+      }
