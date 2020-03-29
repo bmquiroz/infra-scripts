@@ -74,7 +74,7 @@
             "type": "powershell",
             "elevated_user": "{{ user `winrm_username` }}",
             "elevated_password": "{{ user `winrm_password` }}",
-            "script": "/root/packer_poc/win_install.ps1"
+            "script": "/root/repos/infra-scripts/packer/win_build/win_install.ps1"
           }
         ]
       }
