@@ -44,8 +44,6 @@ resource "aws_vpc_dhcp_options" "this" {
   count = var.create_vpc && var.enable_dhcp_options ? 1 : 0
 
   domain_name          = var.dhcp_options_domain_name
-  domain_name_servers  = aws_directory_service_directory.ad_service.dns_ip_addresses 
-  ntp_servers          = aws_directory_service_directory.ad_service.dns_ip_addresses
   netbios_name_servers = var.dhcp_options_netbios_name_servers
   netbios_node_type    = var.dhcp_options_netbios_node_type
 
@@ -56,8 +54,6 @@ resource "aws_vpc_dhcp_options" "this" {
     var.tags,
     var.dhcp_options_tags,
   )
-
-  depends_on = [aws_directory_service_directory.ad_service]
 }
 
 ###############################
