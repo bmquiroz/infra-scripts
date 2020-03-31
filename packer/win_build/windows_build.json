@@ -11,7 +11,7 @@
           "vpc": "vpc-033e4ae283f6e672e",
           "subnet": "subnet-08e1eadeef4adb1e3",
           "region": "us-east-1",
-          "iam_profile": "rcits-packer-svc",
+          "iam_profile": "packer-role-svc",
           "root_volume_size": "60",
           "security_group": "sg-05ee80006706be929",
           "instance_type": "t2.medium"
