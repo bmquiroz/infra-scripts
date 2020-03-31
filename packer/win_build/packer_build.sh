@@ -1,6 +1,6 @@
 #!/bin/bash
 
-aws sts assume-role --role-arn arn:aws:iam::795345444371:role/app/dev/packer-role-svc --role-session-name cfservice > assume-role-output.txt
+aws sts assume-role --role-arn arn:aws:iam::795345444371:role/app/dev/packer-role-svc --role-session-name packer-service > assume-role-output.txt
 
 export AWS_ACCESS_KEY_ID=`cat assume-role-output.txt | jq -c '.Credentials.AccessKeyId' | tr -d '"' | tr -d ' '`
 export AWS_SECRET_ACCESS_KEY=`cat assume-role-output.txt | jq -c '.Credentials.SecretAccessKey' | tr -d '"' | tr -d ' '`
