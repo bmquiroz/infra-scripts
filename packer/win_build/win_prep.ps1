@@ -30,6 +30,7 @@ Set-Service -Name WinRM -StartupType Automatic
 netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new action=allow localip=any remoteip=any
 Start-Service -Name WinRM
 
+# Reset computer name and user data settings in EC2Config service, see https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2config-service.html#UsingConfigXML_WinAMI
 $EC2SettingsFile="C:\\Program Files\\Amazon\\Ec2ConfigService\\Settings\\Config.xml"
 $xml = [xml](get-content $EC2SettingsFile)
 $xmlElement = $xml.get_DocumentElement()
